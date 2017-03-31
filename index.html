@@ -1,25 +1,31 @@
 <!doctype html>
 <html class="no-js" lang="en" dir="ltr">
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Foundation for Sites</title>
         <link rel="stylesheet" href="css/foundation.css">
         <link rel="stylesheet" href="css/app.css">
         <link rel="stylesheet" href="foundation-icons/foundation-icons.css" />
         <style>
+            div#modal-gallery {
+                padding: 0;
+            }
             div#modal-gallery div.text-center {
                 position: relative;
             }
-            big.next {
-                font-size: 24px;
+            div#modal-gallery h2 {
+                position: absolute;
+                top: 1rem;
+                left: 1rem;
+                opacity: 0.6;
+            }
+            button.next {
                 position: absolute;
                 top: 50%;
                 right: 1rem;
             }
-            big.prev {
-                font-size: 24px;
+            button.prev {
                 position: absolute;
                 top: 50%;
                 left: 1rem;
@@ -28,41 +34,45 @@
     </head>
     <body>
         <h1>Gallery</h1>
-        <div class="row expanded small-up-2 medium-up-3 large-up-4">
+        <div id="div-gallery" class="row expanded small-up-2 medium-up-3 large-up-4">
             <div class="column column-block">
-                <a data-toggle="modal-gallery" href="#1"><img src="//placehold.it/600x600" alt=""></a>
+                <a data-toggle="modal-gallery" href="#Gallery+image+1"><img src="//placehold.it/600x600?text=Gallery+image+1" alt=""></a>
             </div>
             <div class="column column-block">
-                <a data-toggle="modal-gallery" href="#2"><img src="//placehold.it/600x600" alt=""></a>
+                <a data-toggle="modal-gallery" href="#Gallery+image+2"><img src="//placehold.it/600x600?text=Gallery+image+2" alt=""></a>
             </div>
             <div class="column column-block">
-                <a data-toggle="modal-gallery" href="#3"><img src="//placehold.it/600x600" alt=""></a>
+                <a data-toggle="modal-gallery" href="#Gallery+image+3"><img src="//placehold.it/600x600?text=Gallery+image+3" alt=""></a>
             </div>
             <div class="column column-block">
-                <a data-toggle="modal-gallery" href="#4"><img src="//placehold.it/600x600" alt=""></a>
+                <a data-toggle="modal-gallery" href="#Gallery+image+4"><img src="//placehold.it/600x600?text=Gallery+image+4" alt=""></a>
             </div>
             <div class="column column-block">
-                <a data-toggle="modal-gallery" href="#5"><img src="//placehold.it/600x600" alt=""></a>
+                <a data-toggle="modal-gallery" href="#Gallery+image+5"><img src="//placehold.it/600x600?text=Gallery+image+5" alt=""></a>
             </div>
             <div class="column column-block">
-                <a data-toggle="modal-gallery" href="#6"><img src="//placehold.it/600x600" alt=""></a>
+                <a data-toggle="modal-gallery" href="#Gallery+image+6"><img src="//placehold.it/600x600?text=Gallery+image+6" alt=""></a>
             </div>
             <div class="column column-block">
-                <a data-toggle="modal-gallery" href="#7"><img src="//placehold.it/600x600" alt=""></a>
+                <a data-toggle="modal-gallery" href="#Gallery+image+7"><img src="//placehold.it/600x600?text=Gallery+image+7" alt=""></a>
             </div>
             <div class="column column-block">
-                <a data-toggle="modal-gallery" href="#8"><img src="//placehold.it/600x600" alt=""></a>
+                <a data-toggle="modal-gallery" href="#Gallery+image+8"><img src="//placehold.it/600x600?text=Gallery+image+8" alt=""></a>
             </div>
             <div class="column column-block">
-                <a data-toggle="modal-gallery" href="#9"><img src="//placehold.it/600x600" alt=""></a>
+                <a data-toggle="modal-gallery" href="#Gallery+image+9"><img src="//placehold.it/600x600?text=Gallery+image+9" alt=""></a>
             </div>
         </div>
         <div class="full reveal" id="modal-gallery" data-reveal>
-            <h2>Kitten</h2>
             <div class="text-center">
+                <h2>Gallery image</h2>
                 <img id="gallery-img" src="" alt="Intropsective Cage">
-                <big class="prev"><i class="fi-rewind"></i></big>
-                <big class="next"><i class="fi-fast-forward"></i></big>
+                <button class="prev button hollow secondary" type="button">
+                    <span aria-hidden="true"><big><i class="fi-minus"></i></big></span>
+                </button>
+                <button class="next button hollow secondary" type="button">
+                    <span aria-hidden="true"><big><i class="fi-plus"></i></big></span>
+                </button>
             </div>
             <button class="close-button" data-close aria-label="Close reveal" type="button">
               <span aria-hidden="true">&times;</span>
@@ -73,29 +83,48 @@
         <script src="js/vendor/foundation.js"></script>
         <script src="js/app.js"></script>
         <script>
-            var galleryImage = new Image();
+            var galleryImages = [];
+            var galleryImagesSrcs = [];
+            var galleryImagesNum = 0;
             var hash;
-            $('big.prev').click(function() {
-                hash = --hash
-                galleryImage.src = "//placehold.it/2400x1200?text=Gallery+image+"+hash;
+            var counter;
+            var h2;
+            $('button.prev').click(function() {
+                hash = counter >= 1 ? galleryImages[--counter] : galleryImages[counter];
+                var src = hash.src;
                 window.location.hash = hash;
-                $("img#gallery-img").attr("src", galleryImage.src);
-                $("div#modal-gallery h2").text("Kitten "+hash);
+                $("img#gallery-img").attr("src", src);
+                $("div#modal-gallery h2").text(h2 + " " + (counter + 1));
+                console.log(counter);
             });
-            $('big.next').click(function() {
-                hash = ++hash
-                galleryImage.src = "//placehold.it/2400x1200?text=Gallery+image+"+hash;
+            $('button.next').click(function() {
+                hash = counter < (galleryImagesNum - 1) ? galleryImages[++counter] : galleryImages[counter];
+                var src = hash.src;
                 window.location.hash = hash;
-                $("img#gallery-img").attr("src", galleryImage.src);
-                $("div#modal-gallery h2").text("Kitten "+hash);
+                $("img#gallery-img").attr("src", src);
+                $("div#modal-gallery h2").text(h2 + " " + (counter + 1));
+                console.log(counter);
             });
             $('a[data-toggle="modal-gallery"]').click(function(event) {
                 event.preventDefault();
                 hash = this.hash.substr(1);
-                galleryImage.src = "//placehold.it/2400x1200?text=Gallery+image+"+hash;
+                counter = galleryImagesSrcs.indexOf(hash); 
+                var src = "//placehold.it/1920x1080?text="+hash;
                 window.location.hash = hash;
-                $("img#gallery-img").attr("src", galleryImage.src);
-                $("div#modal-gallery h2").text("Kitten "+hash);
+                $("img#gallery-img").attr("src", src);
+                $("div#modal-gallery h2").text(h2 + " " + (counter + 1));
+                console.log(counter);
+            });
+            $(document).on("ready", function() {
+                h2 = $("div#modal-gallery h2").text();
+                $("div#div-gallery div.column-block a").each(function(index, element) {
+                    var currHash = $(element).attr("href").substr(1);
+                    var img = new Image();
+                    img.src = "//placehold.it/1920x1080?text="+currHash;
+                    galleryImages.push(img);
+                    galleryImagesSrcs.push(currHash);
+                });
+                galleryImagesNum = galleryImages.length;
             });
         </script>
     </body>
